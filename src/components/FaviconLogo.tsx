@@ -1,7 +1,7 @@
 // src/components/FaviconLogo.tsx
 import React from 'react';
 
-const FaviconLogo: React.FC = () => {
+const FaviconLogo: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <svg
       width="64"
@@ -9,6 +9,7 @@ const FaviconLogo: React.FC = () => {
       viewBox="0 0 64 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       {/* Background Circle */}
       <circle cx="32" cy="32" r="30" fill="#0D1117" stroke="#3B82F6" strokeWidth="4" />

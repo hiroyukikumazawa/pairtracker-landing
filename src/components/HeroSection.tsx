@@ -8,12 +8,22 @@ const HeroSection: React.FC = () => {
             initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            // className="bg-deepSpace text-white py-24 relative"
+        // className="bg-deepSpace text-white py-24 relative"
         >
             <section className="bg-deepSpace text-white py-24 relative">
                 {/* Geometric Shapes */}
-                <div className="absolute top-0 left-0 w-40 h-40 bg-purpleHaze opacity-20 rotate-45"></div>
-                <div className="absolute bottom-0 right-0 w-60 h-60 bg-neonGreen opacity-15 -rotate-12"></div>
+                <motion.div
+                    initial={{ rotate: 0, opacity: 0 }}
+                    animate={{ rotate: 45, opacity: 0.2 }}
+                    transition={{ duration: 1 }}
+                    className="absolute top-0 left-0 w-40 h-40 bg-purpleHaze"
+                />
+                <motion.div
+                    initial={{ rotate: 0, opacity: 0 }}
+                    animate={{ rotate: -12, opacity: 0.15 }}
+                    transition={{ duration: 1, delay: 0.3 }}
+                    className="absolute bottom-0 right-0 w-60 h-60 bg-neonGreen"
+                />
 
                 <div className="container mx-auto text-center px-6 relative z-10">
                     <h1 className="text-5xl md:text-6xl font-display mb-6 neon-glow">
