@@ -1,18 +1,185 @@
 // src/components/Navbar.tsx
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Transition } from '@headlessui/react';
+import { XMarkIcon, Bars3Icon } from '@heroicons/react/24/solid';
+import FaviconLogo from './FaviconLogo';
 
 const Navbar: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close the mobile menu when clicking outside
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [isOpen]);
+
+  // Lock scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isOpen]);
+
+  const navigation = [
+    { name: 'Features', href: '#features' },
+    { name: 'Analytics', href: '#analytics' },
+    { name: 'Get Started', href: '#cta' },
+  ];
+
   return (
     <header className="bg-deepSpace text-slateGray sticky top-0 z-50 shadow-neon">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
-        <div className="text-3xl font-display text-electricBlue">PairTracker</div>
+        {/* Logo */}
+        <div className="flex items-center">
+          <FaviconLogo />
+          <span className="ml-6 text-3xl font-display text-[#EC4899]">Pair</span><span className="text-3xl font-display text-electricBlue">Tracker</span>
+        </div>
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          <a href="#features" className="hover:text-neonGreen transition-fast">Features</a>
-          <a href="#analytics" className="hover:text-neonGreen transition-fast">Analytics</a>
-          <a href="#cta" className="hover:text-neonGreen transition-fast">Get Started</a>
+          {navigation.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              className="text-slateGray hover:text-neonGreen transition-fast"
+            >
+              {item.name}
+            </a>
+          ))}
         </nav>
-        <button className="md:hidden text-electricBlue hover:text-neonGreen transition-fast">Menu</button>
+
+        {/* Hamburger Menu Button */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            type="button"
+            className="text-electricBlue hover:text-neonGreen focus:outline-none focus:ring-2 focus:ring-neonGreen rounded"
+            aria-controls="mobile-menu"
+            aria-expanded={isOpen}
+            aria-label="Toggle navigation menu"
+          >
+            {isOpen ? (
+              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+            ) : (
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            )}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      <Transition
+        show={isOpen}
+        enter="transition ease-out duration-300 transform"
+        enterFrom="translate-x-full opacity-0"
+        enterTo="translate-x-0 opacity-100"
+        leave="transition ease-in duration-200 transform"
+        leaveFrom="translate-x-0 opacity-100"
+        leaveTo="translate-x-full opacity-0"
+      >
+        <div
+          className="fixed inset-0 z-40 flex"
+          role="dialog"
+          aria-modal="true"
+        >
+          {/* Overlay */}
+          <Transition.Child
+            enter="transition-opacity ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-50"
+            leave="transition-opacity ease-in duration-200"
+            leaveFrom="opacity-50"
+            leaveTo="opacity-0"
+          >
+            <div
+              className="fixed inset-0 bg-black opacity-50"
+              aria-hidden="true"
+              onClick={() => setIsOpen(false)}
+            ></div>
+          </Transition.Child>
+
+          {/* Mobile Menu Panel */}
+          <Transition.Child
+            enter="transition ease-out duration-300 transform"
+            enterFrom="translate-x-full"
+            enterTo="translate-x-0"
+            leave="transition ease-in duration-200 transform"
+            leaveFrom="translate-x-0"
+            leaveTo="translate-x-full"
+          >
+            <div
+              ref={mobileMenuRef}
+              className="relative max-w-xs w-full bg-deepSpace shadow-xl py-6 px-6 flex flex-col overflow-y-auto"
+            >
+              {/* Close button */}
+              <div className="flex items-center justify-between">
+                <a href="/" className="text-2xl font-display text-electricBlue flex items-center">
+                  {/* Replace with your logo image if available */}
+                  <svg
+                    className="h-8 w-8 mr-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  PairTracker
+                </a>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  type="button"
+                  className="text-electricBlue hover:text-neonGreen focus:outline-none focus:ring-2 focus:ring-neonGreen rounded"
+                >
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                  <span className="sr-only">Close menu</span>
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="mt-6">
+                <nav className="flex flex-col space-y-4">
+                  {navigation.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="text-slateGray hover:text-neonGreen text-lg transition-fast"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+
+              {/* Optional: Add additional elements like social links or CTA */}
+              <div className="mt-auto">
+                <a
+                  href="#cta"
+                  className="block w-full text-center bg-electricBlue hover:bg-neonGreen text-deepSpace py-3 px-4 rounded-lg mt-8 transition-fast"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Get Started
+                </a>
+              </div>
+            </div>
+          </Transition.Child>
+        </div>
+      </Transition>
     </header>
   );
 };
