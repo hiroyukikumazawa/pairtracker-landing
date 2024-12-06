@@ -127,17 +127,7 @@ const Navbar: React.FC = () => {
               {/* Close button */}
               <div className="flex items-center justify-between">
                 <a href="/" className="text-2xl font-display text-electricBlue flex items-center">
-                  {/* Replace with your logo image if available */}
-                  <svg
-                    className="h-8 w-8 mr-2"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
+                  <FaviconLogo className="h-10 w-10 mr-2" />
                   PairTracker
                 </a>
                 <button
