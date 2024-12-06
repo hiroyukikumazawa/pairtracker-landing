@@ -7,6 +7,7 @@
 
 /* Custom Styles */
 body {
+  overflow: hidden;
   background-color: #0D1117;
   color: #64748B;
   font-family: 'Inter', sans-serif;
