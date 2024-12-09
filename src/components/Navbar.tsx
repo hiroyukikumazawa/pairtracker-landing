@@ -3,10 +3,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Transition } from '@headlessui/react';
 import { XMarkIcon, Bars3Icon } from '@heroicons/react/24/solid';
 import FaviconLogo from './FaviconLogo';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   // Close the mobile menu when clicking outside
   useEffect(() => {
@@ -37,28 +39,50 @@ const Navbar: React.FC = () => {
   const navigation = [
     { name: 'Features', href: '#features' },
     { name: 'Analytics', href: '#analytics' },
-    { name: 'Get Started', href: '#cta' },
+    { name: 'Get Started', href: '/app' },
   ];
+
+  const appNavigation = [
+    { name: 'Home', href: '/' },
+  ];
+
+  const isAppPage = window.location.pathname === '/app';
 
   return (
     <header className="bg-deepSpace text-slateGray sticky top-0 z-50 shadow-neon">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
-        <div className="flex items-center">
+        <div className="flex items-center cursor-pointer">
           <FaviconLogo />
           <span className="ml-6 text-3xl font-display text-[#EC4899]">Pair</span><span className="text-3xl font-display text-electricBlue">Tracker</span>
         </div>
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-slateGray hover:text-neonGreen transition-fast"
-            >
-              {item.name}
-            </a>
-          ))}
+          {isAppPage ?
+            appNavigation.map((item) => (
+              <a key={item.name} onClick={() => { navigate(item.href) }} className="text-slateGray hover:text-neonGreen transition-fast cursor-pointer">
+                {item.name}
+              </a>
+            )) :
+            navigation.map((item) => (
+              item.href === '/app' ?
+                <a
+                  key={item.name}
+                  onClick={() => navigate('/app')}
+                  className="text-slateGray hover:text-neonGreen transition-fast cursor-pointer"
+                >
+                  {item.name}
+                </a>
+                :
+                <a
+                  key={item.name}
+                  onClick={() => navigate(item.href)}
+                  className="text-slateGray hover:text-neonGreen transition-fast cursor-pointer"
+                >
+                  {item.name}
+                </a>
+            ))
+          }
         </nav>
 
         {/* Hamburger Menu Button */}
@@ -143,25 +167,41 @@ const Navbar: React.FC = () => {
               {/* Navigation Links */}
               <div className="mt-6">
                 <nav className="flex flex-col space-y-4">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="text-slateGray hover:text-neonGreen text-lg transition-fast"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </a>
-                  ))}
+                  {isAppPage ?
+                    appNavigation.map((item) => (
+                      <a key={item.name} onClick={() => { navigate(item.href); setIsOpen(false) }} className="text-slateGray hover:text-neonGreen text-lg transition-fast cursor-pointer">
+                        {item.name}
+                      </a>
+                    ))
+                    :
+                    navigation.map((item) => (
+                      item.href === '/app' ?
+                        <a
+                          key={item.name}
+                          onClick={() => { navigate('/app'); setIsOpen(false) }}
+                          className="text-slateGray hover:text-neonGreen text-lg transition-fast cursor-pointer"
+                        >
+                          {item.name}
+                        </a>
+                        :
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className="text-slateGray hover:text-neonGreen text-lg transition-fast cursor-pointer"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {item.name}
+                        </a>
+                    ))
+                  }
                 </nav>
               </div>
 
               {/* Optional: Add additional elements like social links or CTA */}
               <div className="mt-auto">
                 <a
-                  href="#cta"
-                  className="block w-full text-center bg-electricBlue hover:bg-neonGreen text-deepSpace py-3 px-4 rounded-lg mt-8 transition-fast"
-                  onClick={() => setIsOpen(false)}
+                  className="block w-full text-center bg-electricBlue hover:bg-neonGreen text-deepSpace py-3 px-4 rounded-lg mt-8 transition-fast cursor-pointer"
+                  onClick={() => navigate('/app')}
                 >
                   Get Started
                 </a>
