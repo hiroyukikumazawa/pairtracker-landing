@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
                 :
                 <a
                   key={item.name}
-                  onClick={() => navigate(item.href)}
+                  href={item.href}
                   className="text-slateGray hover:text-neonGreen transition-fast cursor-pointer"
                 >
                   {item.name}

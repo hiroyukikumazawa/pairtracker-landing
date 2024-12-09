@@ -28,7 +28,7 @@ const FeaturesSection: React.FC = () => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
-      id="features" 
+      id="features"
       className="py-24 pt-0 bg-deepSpace"
     >
       <div className="container mx-auto px-6 text-center">
