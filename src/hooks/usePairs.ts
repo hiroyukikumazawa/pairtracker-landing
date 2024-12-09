@@ -1,6 +1,5 @@
 // src/hooks/usePairs.ts
 import { useQuery } from 'react-query';
-import axios from 'axios';
 
 export interface Token {
   id: string;
