@@ -1,8 +1,11 @@
 // src/components/HeroSection.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         <motion.section
             initial={{ opacity: 0, y: -100 }}
@@ -32,7 +35,7 @@ const HeroSection: React.FC = () => {
                     <p className="text-lg md:text-2xl mb-8">
                         Track and explore all trading pairs across global Automated Market Makers instantly.
                     </p>
-                    <button className="bg-electricBlue hover:bg-neonGreen text-deepSpace py-3 px-8 rounded-lg text-lg font-semibold shadow-neon transition-fast">
+                    <button onClick={() => navigate('/app')} className="bg-electricBlue hover:bg-neonGreen text-deepSpace py-3 px-8 rounded-lg text-lg font-semibold shadow-neon transition-fast cursor-pointer">
                         Get Started
                     </button>
                 </div>

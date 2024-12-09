@@ -1,7 +1,10 @@
 // src/components/CTASection.tsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CTASection: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <section id="cta" className="py-24 bg-deepSpace text-white relative">
       {/* Animated Background Elements */}
@@ -13,7 +16,7 @@ const CTASection: React.FC = () => {
         <p className="text-lg md:text-xl mb-8 text-slateGray">
           Discover new trading pairs and stay ahead in the dynamic DeFi markets.
         </p>
-        <button className="bg-vibrantPink hover:bg-brightYellow text-deepSpace py-3 px-8 rounded-lg text-lg font-semibold shadow-neon transition-fast">
+        <button onClick={() => navigate('/app')} className="bg-vibrantPink hover:bg-brightYellow text-deepSpace py-3 px-8 rounded-lg text-lg font-semibold shadow-neon transition-fast">
           Get Started Now
         </button>
       </div>
