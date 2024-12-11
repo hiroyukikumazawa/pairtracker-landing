@@ -4,7 +4,7 @@ import { useQueryClient } from 'react-query';
 import io from 'socket.io-client';
 import { Pair } from './usePairs';
 
-const SOCKET_SERVER_URL = import.meta.env.VITE_NEXT_PUBLIC_SERVER_URL || 'https://admin.pairtracker.org'; // Replace with your server URL
+const SOCKET_SERVER_URL = 'https://api.pairtracker.org'; // Replace with your server URL
 
 export const useWebSocket = () => {
   const queryClient = useQueryClient();
@@ -16,15 +16,9 @@ export const useWebSocket = () => {
       console.log('Connected to WebSocket server');
     });
 
-    socket.on('newPair', (newPairData) => {
+    socket.on('new-pair', (newPair: Pair) => {
       // Update the 'pairs' query data
-      console.log('New pair received:', newPairData);
-      queryClient.setQueryData<Pair[]>('pairs', (oldData = []) => [newPairData, ...oldData]);
-    });
-
-    socket.on('newPoolDetails', (poolDetails) => {
-      // Handle new pool details if necessary
-      console.log('New pool details received:', poolDetails);
+      queryClient.setQueryData<Pair[]>('pairs', (oldData = []) => [newPair, ...oldData]);
     });
 
     socket.on('update-pair', (updatedPair: Pair) => {
