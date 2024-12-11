@@ -5,6 +5,9 @@ import { XMarkIcon, Bars3Icon } from '@heroicons/react/24/solid';
 import FaviconLogo from './FaviconLogo';
 import { useNavigate } from 'react-router-dom';
 
+// Import Wallet Components
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -57,7 +60,11 @@ const Navbar: React.FC = () => {
           <span className="ml-6 text-3xl font-display text-[#EC4899]">Pair</span><span className="text-3xl font-display text-electricBlue">Tracker</span>
         </div>
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
+        <nav className="hidden md:flex items-center space-x-8">
+          {/* Add Connect Wallet Button on /app Page */}
+          {isAppPage && (
+            <WalletMultiButton className="!bg-electricBlue !text-deepSpace !px-4 !py-2 !rounded-lg !hover:bg-neonGreen transition-fast" />
+          )}
           {isAppPage ?
             appNavigation.map((item) => (
               <a key={item.name} onClick={() => { navigate(item.href) }} className="text-slateGray hover:text-neonGreen transition-fast cursor-pointer">
@@ -86,7 +93,8 @@ const Navbar: React.FC = () => {
         </nav>
 
         {/* Hamburger Menu Button */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center space-x-4">
+          {/* Add Connect Wallet Button on Mobile Menu */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             type="button"
@@ -194,6 +202,9 @@ const Navbar: React.FC = () => {
                         </a>
                     ))
                   }
+                  {isAppPage && (
+                    <WalletMultiButton className="!bg-electricBlue !text-deepSpace !px-3 !py-2 !rounded-lg !hover:bg-neonGreen transition-fast" />
+                  )}
                 </nav>
               </div>
 
