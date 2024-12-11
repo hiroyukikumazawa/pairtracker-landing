@@ -1,5 +1,6 @@
 import React from 'react';
 import LivePairsTable from '../components/LivePairsTable';
+import AnalyticsCharts from '../components/AnalyticsCharts';
 import { useWebSocket } from '../hooks/useWebSocket';
 
 const AppPage: React.FC = () => {
@@ -8,6 +9,7 @@ const AppPage: React.FC = () => {
   return (
     <div>
       <LivePairsTable />
+      <AnalyticsCharts />
     </div>
   );
 };

@@ -1,3 +1,4 @@
+// src/components/LivePairsTable.tsx
 import React, { useState, useMemo } from 'react';
 import { usePairs } from '../hooks/usePairs';
 import LoadingSpinner from './LoadingSpinner';
@@ -14,22 +15,21 @@ const LivePairsTable: React.FC = () => {
   const filteredPairs = useMemo(() => {
     if (!data) return [];
     return data.filter((pair) => {
-      // const searchMatch =
-      //   pair.token0Id.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      //   pair.token1Id.symbol.toLowerCase().includes(searchTerm.toLowerCase());
+      const searchMatch =
+        pair.token0.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        pair.token1.symbol.toLowerCase().includes(searchTerm.toLowerCase());
 
-      // let filterMatch = true;
-      // if (filter === 'active') {
-      //   filterMatch = parseFloat(pair.volumeUSD) > 1000; // Example criterion
-      // } else if (filter === 'new') {
-      //   const createdDate = new Date(pair.createdAt * 1000);
-      //   const now = new Date();
-      //   const diffDays = (now.getTime() - createdDate.getTime()) / (1000 * 3600 * 24);
-      //   filterMatch = diffDays <= 7; // Pairs created within the last 7 days
-      // }
+      let filterMatch = true;
+      if (filter === 'active') {
+        filterMatch = parseFloat(pair.volumeUSD) > 1000; // Example criterion
+      } else if (filter === 'new') {
+        const createdDate = new Date(pair.createdAtTimestamp * 1000);
+        const now = new Date();
+        const diffDays = (now.getTime() - createdDate.getTime()) / (1000 * 3600 * 24);
+        filterMatch = diffDays <= 7; // Pairs created within the last 7 days
+      }
 
-      // return searchMatch && filterMatch;
-      return pair;
+      return searchMatch && filterMatch;
     });
   }, [data, searchTerm, filter]);
 
@@ -47,9 +47,10 @@ const LivePairsTable: React.FC = () => {
         <table className="min-w-full bg-gray-800 rounded-lg">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-left text-slateGray">Token 0</th>
-              <th className="px-4 py-2 text-left text-slateGray">Token 1</th>
-              <th className="px-4 py-2 text-left text-slateGray">Pair Address</th>
+              <th className="px-4 py-2 text-left text-slateGray">Pair</th>
+              <th className="px-4 py-2 text-left text-slateGray">Reserve (USD)</th>
+              <th className="px-4 py-2 text-left text-slateGray">Volume (24h)</th>
+              <th className="px-4 py-2 text-left text-slateGray">Transactions</th>
               <th className="px-4 py-2 text-left text-slateGray">Link</th>
             </tr>
           </thead>
